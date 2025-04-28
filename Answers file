@@ -1,0 +1,98 @@
+index.html
+html
+---------------------------------------------------------------------------------------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CSS Animations & Local Storage</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <h1>Welcome to Animation World 🌟</h1>
+
+  <button id="animateButton">Click Me!</button>
+
+  <div id="box"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
+styles.css
+css
+----------------------------------------------------------------------------------------
+body {
+  text-align: center;
+  margin-top: 50px;
+  font-family: Arial, sans-serif;
+}
+
+#animateButton {
+  padding: 10px 20px;
+  font-size: 18px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+
+#animateButton:hover {
+  background-color: #45a049;
+}
+
+#box {
+  width: 100px;
+  height: 100px;
+  background-color: #2196F3;
+  margin: 40px auto;
+  border-radius: 10px;
+  position: relative;
+}
+
+/* Animation Class */
+.move {
+  animation: moveBox 1s forwards;
+}
+
+@keyframes moveBox {
+  0% { left: 0; }
+  50% { left: 50px; background-color: #ff5722; }
+  100% { left: 100px; background-color: #8bc34a; }
+}
+script.js
+javascript
+------------------------------------------------------------------------------------
+// Function to store user's button click count
+function storeClickCount() {
+  let count = localStorage.getItem('clickCount') || 0;
+  count++;
+  localStorage.setItem('clickCount', count);
+  console.log(`Button clicked ${count} times!`);
+}
+
+// Function to retrieve and show click count
+function showStoredClicks() {
+  const count = localStorage.getItem('clickCount') || 0;
+  alert(`You have clicked the button ${count} times before!`);
+}
+
+// Function to trigger animation
+function animateBox() {
+  const box = document.getElementById('box');
+  box.classList.remove('move'); // Reset animation
+  void box.offsetWidth; // Trigger reflow to restart animation
+  box.classList.add('move');
+}
+
+// Event listener for the button
+const button = document.getElementById('animateButton');
+button.addEventListener('click', () => {
+  storeClickCount();
+  animateBox();
+});
+
+// Show stored clicks when the page loads
+window.addEventListener('load', showStoredClicks);
